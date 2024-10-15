@@ -3,6 +3,7 @@ import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, Slide, ToastContainer } from "react-toastify";
 
+//for localstorage data get to lists
 const getData = () => {
   const data = localStorage.getItem("Tasks");
   if (data) return JSON.parse(data);
@@ -10,6 +11,8 @@ const getData = () => {
 };
 function App() {
   const [inputValue, setInputValue] = useState("");
+
+  //getData from LocalStorage
   const [lists, setLists] = useState(getData());
   const [updateIndex, setUpdateIndex] = useState(null);
 
@@ -61,33 +64,28 @@ function App() {
     }
   };
 
+  // Save lists in localStorage
   useEffect(() => {
     localStorage.setItem("Tasks", JSON.stringify(lists));
   }, [lists]);
   // gradient-to-b from-orange-400 via-gray-800 to-green-600
   return (
     <div className="h-screen bg-gray-800 text-red-400">
-      <h1 className="text-[2.7rem]  text-red-500 text-center font-semibold p-4  rounded">
+      <h1 className="text-[2.7rem]  text-red-500 text-center font-semibold p-4  ">
         Todo-list 📝
       </h1>
       <form className="flex justify-center" onSubmit={handleSubmit}>
         <input
           type="text"
-          className="w-1/2 p-2 m-2 border text-[1.2rem] text-red-500 rounded"
+          className="w-1/2 p-2  mx-0 border text-[1.2rem] text-red-500 "
           placeholder="Enter your task"
           value={inputValue}
           onChange={(e) => handleChange(e.target.value)}
           required
           autoComplete="off"
         />
-        <button className="bg-orange-500 text-stone-100 font-semibold p-3 m-2 rounded">
+        <button className="bg-orange-500 text-stone-100 font-semibold w-28 px-5 py-3  mx-0 rounded">
           {updateIndex !== null ? "Edit" : "Add"}
-        </button>
-        <button
-          onClick={handleDelteAll}
-          className="bg-orange-500 text-white font-semibold p-3 rounded-lg m-1"
-        >
-          Delete All
         </button>
       </form>
 
@@ -111,6 +109,12 @@ function App() {
             </li>
           );
         })}
+        <button
+          onClick={handleDelteAll}
+          className="bg-orange-500 text-white font-semibold px-10 py-3 rounded-lg m-1"
+        >
+          Delete All
+        </button>
       </ul>
       <ToastContainer
         position="bottom-right"

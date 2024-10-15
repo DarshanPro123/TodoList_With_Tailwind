@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-
+import { toast } from "react-toastify";
 function App() {
   const [inputValue, setInputValue] = useState("");
   const [lists, setLists] = useState([]);
@@ -19,22 +19,39 @@ function App() {
       );
       setLists(updatedLists);
       setUpdateIndex(null);
-    } else {
-      //checking list are same or not
-      if (lists.includes(inputValue)) return alert("Its same");
-      setLists((previous) => [...previous, inputValue]);
+      setInputValue("");
+      toast.info("List is Update SucessFully");
+      return;
     }
+    //checking list are same or not
+    if (lists.includes(inputValue)) return toast.warn("Task already exists 🦹🏻‍♂️");
+
+    setLists((previous) => [...previous, inputValue]);
+    toast.success("Task added successfully");
     setInputValue("");
   };
 
   const handleDelete = (task) => {
     const newLists = lists.filter((i) => i !== task);
+    toast.error("Task deleted successfully");
     setLists(newLists);
   };
 
   const handleUpdate = (list, index) => {
     setInputValue(list);
     setUpdateIndex(index);
+  };
+
+  const handleDelteAll = () => {
+    if (lists) {
+      setLists([]);
+      toast.error("All task are deleted");
+      return;
+    }
+
+    if (!lists) {
+      toast.error("List is already Empty!!");
+    }
   };
 
   return (
@@ -53,7 +70,13 @@ function App() {
           autoComplete="off"
         />
         <button className="bg-orange-500 text-stone-100 font-semibold p-3 m-2 rounded">
-          {updateIndex !== null ? "Update" : "Add"}
+          {updateIndex !== null ? "Edit" : "Add"}
+        </button>
+        <button
+          onClick={handleDelteAll}
+          className="bg-orange-500 text-white font-semibold p-3 rounded-lg m-1"
+        >
+          Delete All
         </button>
       </form>
 

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./App.css";
-import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toast, Slide, ToastContainer } from "react-toastify";
+
 function App() {
   const [inputValue, setInputValue] = useState("");
   const [lists, setLists] = useState([]);
@@ -53,10 +55,10 @@ function App() {
       toast.error("List is already Empty!!");
     }
   };
-
+  // gradient-to-b from-orange-400 via-gray-800 to-green-600
   return (
-    <div className="h-screen bg-gradient-to-b from-orange-400 via-gray-300 to-green-600 text-red-400">
-      <h1 className="text-[1.7rem] text-red-500 text-center font-semibold p-4 rounded">
+    <div className="h-screen bg-gray-800 text-red-400">
+      <h1 className="text-[2.7rem]  text-red-500 text-center font-semibold p-4  rounded">
         Todo-list 📝
       </h1>
       <form className="flex justify-center" onSubmit={handleSubmit}>
@@ -101,6 +103,14 @@ function App() {
           );
         })}
       </ul>
+      <ToastContainer
+        position="top-right"
+        pauseOnHover={false}
+        autoClose={2000}
+        hideProgressBar={true}
+        theme="colored"
+        transition={Slide}
+      />
     </div>
   );
 }

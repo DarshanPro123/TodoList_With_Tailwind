@@ -1,11 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, Slide, ToastContainer } from "react-toastify";
 
+const getData = () => {
+  const data = localStorage.getItem("Tasks");
+  if (data) return JSON.parse(data);
+  return [];
+};
 function App() {
   const [inputValue, setInputValue] = useState("");
-  const [lists, setLists] = useState([]);
+  const [lists, setLists] = useState(getData());
   const [updateIndex, setUpdateIndex] = useState(null);
 
   const handleChange = (value) => {
@@ -55,6 +60,10 @@ function App() {
       toast.error("List is already Empty!!");
     }
   };
+
+  useEffect(() => {
+    localStorage.setItem("Tasks", JSON.stringify(lists));
+  }, [lists]);
   // gradient-to-b from-orange-400 via-gray-800 to-green-600
   return (
     <div className="h-screen bg-gray-800 text-red-400">
@@ -104,7 +113,7 @@ function App() {
         })}
       </ul>
       <ToastContainer
-        position="top-right"
+        position="bottom-right"
         pauseOnHover={false}
         autoClose={2000}
         hideProgressBar={true}
